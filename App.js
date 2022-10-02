@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { NativeRouter } from "react-router-native";
+import { ApolloProvider } from "@apollo/client";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import Main from "./src/components/Main";
+import createApolloClient from "./src/utils/apolloClient";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const apolloClient = createApolloClient();
+
+const App = () => {
+	return (
+		<>
+			<NativeRouter>
+				<ApolloProvider client={apolloClient}>
+					<Main />
+				</ApolloProvider>
+			</NativeRouter>
+			<StatusBar style="auto" />
+		</>
+	);
+};
+
+export default App;
