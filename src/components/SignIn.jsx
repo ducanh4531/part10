@@ -2,6 +2,7 @@ import { View, Pressable } from "react-native";
 // TouchableWithoutFeedback
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-native";
 
 import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
@@ -47,7 +48,7 @@ const SignInForm = ({ onSubmit }) => {
 				<FormikTextInput
 					name="password"
 					placeholder="Password"
-					// secureTextEntry={true}
+					secureTextEntry={true}
 				/>
 			</View>
 			<View style={styles.separate}>
@@ -62,20 +63,24 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
+	// const [signIn] = useSignIn();
 	const [signIn] = useSignIn();
+	const navigate = useNavigate();
 
 	const onSubmit = async (values) => {
 		const { username, password } = values;
 
 		try {
+			// const { data } = await signIn({ username, password });
 			const { data } = await signIn({ username, password });
 			console.log(
-				"🚀 ~ file: SignIn.jsx ~ line 73 ~ onSubmit ~ data",
-				data
+				"🚀 ~ file: SignIn.jsx ~ line 75 ~ onSubmit ~ data.authenticate.accessToken",
+				data.authenticate.accessToken
 			);
 		} catch (e) {
 			console.log("🚀 ~ file: SignIn.jsx ~ line 76 ~ onSubmit ~ e", e);
 		}
+		navigate("/", { replace: true });
 	};
 
 	return (

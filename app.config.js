@@ -13,7 +13,7 @@ export default {
 			backgroundColor: "#ffffff",
 		},
 		extra: {
-			env: process.env.APOLLO_URI,
+			apolloUri: process.env.APOLLO_URI,
 		},
 		updates: {
 			fallbackToCacheTimeout: 0,
