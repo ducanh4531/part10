@@ -1,5 +1,4 @@
 import { View, Pressable } from "react-native";
-// TouchableWithoutFeedback
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-native";
@@ -63,16 +62,17 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-	// const [signIn] = useSignIn();
 	const [signIn] = useSignIn();
+	// const [signIn, result] = useSignIn();
 	const navigate = useNavigate();
 
 	const onSubmit = async (values) => {
 		const { username, password } = values;
 
 		try {
-			// const { data } = await signIn({ username, password });
 			const { data } = await signIn({ username, password });
+			// await signIn({ username, password });
+			navigate("/", { replace: true });
 			console.log(
 				"🚀 ~ file: SignIn.jsx ~ line 75 ~ onSubmit ~ data.authenticate.accessToken",
 				data.authenticate.accessToken
@@ -80,7 +80,6 @@ const SignIn = () => {
 		} catch (e) {
 			console.log("🚀 ~ file: SignIn.jsx ~ line 76 ~ onSubmit ~ e", e);
 		}
-		navigate("/", { replace: true });
 	};
 
 	return (
