@@ -13,8 +13,6 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
-	// const navigate = useNavigate();
-
 	return (
 		<View style={styles.container}>
 			<AppBar />

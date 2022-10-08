@@ -1,4 +1,5 @@
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+// import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import { Link } from "react-router-native";
 import { useQuery, useApolloClient } from "@apollo/client";
@@ -48,35 +49,22 @@ const AppBar = () => {
 		apolloClient.resetStore();
 	};
 
-	// if (!data.me) {
-	// 	return (
-	// 		<View style={appBarStyles.container}>
-	// 			<ScrollView horizontal>
-	// 				<Link to="/">
-	// 					<AppBarTab content="Repositories" />
-	// 				</Link>
-	// 				<Link to="/sign">
-	// 					<AppBarTab content="Sign in" />
-	// 				</Link>
-	// 			</ScrollView>
-	// 		</View>
-	// 	);
-	// }
-
-	// console.log(data.me, data);
 	return (
 		<View style={appBarStyles.container}>
 			<ScrollView horizontal>
 				<Link to="/">
 					<AppBarTab content="Repositories" />
 				</Link>
-				<Link to="/sign">
-					<AppBarTab content="Sign in" />
-				</Link>
-				{data.me && (
-					<Pressable onPress={{ onSubmit }}>
+				{data.me ? (
+					// <Pressable onPress={onSubmit}>
+					<Link to="/sign" onPress={onSubmit}>
 						<Text style={appBarTabStyles.textItem}>Log out</Text>
-					</Pressable>
+					</Link>
+				) : (
+					// </Pressable>
+					<Link to="/sign">
+						<AppBarTab content="Sign in" />
+					</Link>
 				)}
 			</ScrollView>
 		</View>
