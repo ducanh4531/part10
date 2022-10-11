@@ -119,7 +119,7 @@ const cardStyles = StyleSheet.create({
 
 const RepositoryItem = ({ item }) => {
 	return (
-		<View style={cardStyles.container}>
+		<View testID="repositoryItem" style={cardStyles.container}>
 			<CardTitle item={item} />
 			<CardInformation item={item} />
 		</View>
