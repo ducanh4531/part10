@@ -61,6 +61,18 @@ const SignInForm = ({ onSubmit }) => {
 	);
 };
 
+// Add this component for testing in 10.18
+export const SignInContainer = ({ onSubmit }) => {
+	return (
+		<Formik
+			validationSchema={validationSchema}
+			initialValues={initialValues}
+			onSubmit={onSubmit}
+		>
+			{({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+		</Formik>
+	);
+};
 const SignIn = () => {
 	const [signIn] = useSignIn();
 	// const [signIn, result] = useSignIn();
@@ -82,15 +94,7 @@ const SignIn = () => {
 		}
 	};
 
-	return (
-		<Formik
-			validationSchema={validationSchema}
-			initialValues={initialValues}
-			onSubmit={onSubmit}
-		>
-			{({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-		</Formik>
-	);
+	return <SignInContainer onSubmit={onSubmit} />;
 };
 
 export default SignIn;
