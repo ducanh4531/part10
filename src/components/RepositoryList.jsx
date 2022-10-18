@@ -1,4 +1,5 @@
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Pressable } from "react-native";
+import { useNavigate, useParams, Link } from "react-router-native";
 
 import RepositoryItem from "./RepositoryItem";
 import theme from "../theme";
@@ -61,31 +62,45 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 export const RepositoryListContainer = ({ repositories }) => {
-	// const repositoryNodes = result.data
-	// 	? result.data.repositories.edges.map((edge) => edge.node)
-	// 	: [];
-
 	const repositoryNodes = repositories
 		? repositories.edges.map((edge) => edge.node)
 		: [];
+
+	const navigate = useNavigate();
+	const { repositoryId } = useParams();
+
+	const handlePress = () => {
+		navigate(`:${repositoryId}`);
+	};
 
 	return (
 		<FlatList
 			data={repositoryNodes}
 			ItemSeparatorComponent={ItemSeparator}
 			keyExtractor={(item, index) => index.toString()}
-			renderItem={({ item }) => <RepositoryItem item={item} />}
+			renderItem={({ item }) => (
+				<Pressable onPress={handlePress}>
+					<Link to={`${item.id}`}>
+						<RepositoryItem item={item} />
+					</Link>
+				</Pressable>
+			)}
 		/>
 	);
 };
 
 const RepositoryList = () => {
-	const { result } = useRepositories();
-	if (result.loading) {
+	const { data, loading } = useRepositories();
+
+	if (loading) {
 		return null;
 	}
 
-	return <RepositoryListContainer repositories={result.data.repositories} />;
+	return (
+		<>
+			<RepositoryListContainer repositories={data.repositories} />
+		</>
+	);
 };
 
 export default RepositoryList;

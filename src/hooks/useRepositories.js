@@ -29,7 +29,7 @@ const useRepositories = () => {
 	// 	fetchRepositories();
 	// }, []);
 
-	return { result };
+	return result;
 };
 
 export default useRepositories;
