@@ -5,10 +5,10 @@ import RepositoryItem from "./RepositoryItem";
 import theme from "../theme";
 import useRepositories from "../hooks/useRepositories";
 
-const styles = StyleSheet.create({
+export const separatorStyles = StyleSheet.create({
 	separator: {
-		height: 15,
 		backgroundColor: theme.colors.mainBackground,
+		height: 15,
 	},
 });
 
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 // 	},
 // ];
 
-const ItemSeparator = () => <View style={styles.separator} />;
+export const ItemSeparator = () => <View style={separatorStyles.separator} />;
 
 export const RepositoryListContainer = ({ repositories }) => {
 	const repositoryNodes = repositories

@@ -1,7 +1,10 @@
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
+import { useParams } from "react-router-native";
+import * as Linking from "expo-linking";
 
 import Text from "./Text";
 import theme from "../theme";
+import { ItemSeparator } from "./RepositoryList";
 
 const cardHeaderStyles = StyleSheet.create({
 	container: {
@@ -68,7 +71,7 @@ const cardBodyStyles = StyleSheet.create({
 		flexGrow: 1,
 		// IOS only supports value 'justify'
 		textAlign: "center",
-		justifyContent: "space-evenly",
+		justifyContent: "space-around",
 	},
 });
 
@@ -118,11 +121,43 @@ const cardStyles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+	const { repositoryId } = useParams();
+
+	const handlePress = () => {
+		Linking.openURL(item.url);
+	};
+
 	return (
-		<View testID="repositoryItem" style={cardStyles.container}>
-			<CardTitle item={item} />
-			<CardInformation item={item} />
-		</View>
+		<>
+			<View testID="repositoryItem" style={cardStyles.container}>
+				<CardTitle item={item} />
+				<CardInformation item={item} />
+				{repositoryId && (
+					<View style={cardBodyStyles.container}>
+						<Pressable
+							onPress={handlePress}
+							style={[
+								cardHeaderStyles.languageItem,
+								{
+									width: 375,
+									marginTop: 10,
+									marginBottom: 6,
+									padding: 15,
+								},
+							]}
+						>
+							<Text
+								style={{ fontWeight: "bold" }}
+								color="mainBackground"
+							>
+								Open in Github
+							</Text>
+						</Pressable>
+					</View>
+				)}
+			</View>
+			<ItemSeparator />
+		</>
 	);
 };
 
