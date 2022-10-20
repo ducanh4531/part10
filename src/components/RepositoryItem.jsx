@@ -76,9 +76,21 @@ const cardBodyStyles = StyleSheet.create({
 });
 
 const convertToK = (number) => {
+	if (number >= 1000) {
+		return (
+			String(
+				parseInt(
+					(number >= 10000
+						? (number / 1000).toFixed()
+						: number / 1000) * 10
+				) / 10
+			) + "K"
+		);
+	}
+	return number;
 	// eslint-disable-next-line no-undef
-	const formatter = Intl.NumberFormat("en", { notation: "compact" });
-	return formatter.format(number);
+	// const formatter = Intl.NumberFormat("en", { notation: "compact" });
+	// return formatter.format(number);
 };
 
 const CardInformation = ({ item }) => {
