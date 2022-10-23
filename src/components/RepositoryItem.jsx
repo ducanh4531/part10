@@ -4,9 +4,8 @@ import * as Linking from "expo-linking";
 
 import Text from "./Text";
 import theme from "../theme";
-import { ItemSeparator } from "./RepositoryList";
 
-const cardHeaderStyles = StyleSheet.create({
+const cardTitleStyles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		flexGrow: 1,
@@ -32,19 +31,27 @@ const cardHeaderStyles = StyleSheet.create({
 		alignSelf: "flex-start",
 		flexDirection: "row",
 	},
+	textInLogin: {
+		color: theme.colors.white,
+		fontWeight: theme.fontWeights.bold,
+		backgroundColor: theme.colors.primary,
+		width: 350,
+		height: 45,
+		textAlign: "center",
+	},
 });
 
 const CardTitle = ({ item }) => {
 	return (
-		<View style={cardHeaderStyles.container}>
-			<View style={cardHeaderStyles.avatarContainer}>
+		<View style={cardTitleStyles.container}>
+			<View style={cardTitleStyles.avatarContainer}>
 				<Image
-					style={cardHeaderStyles.avatar}
+					style={cardTitleStyles.avatar}
 					source={{ uri: item.ownerAvatarUrl }}
 				/>
 			</View>
 
-			<View style={cardHeaderStyles.infoContainer}>
+			<View style={cardTitleStyles.infoContainer}>
 				<Text
 					fontWeight="bold"
 					fontSize="subheading"
@@ -56,7 +63,7 @@ const CardTitle = ({ item }) => {
 					{item.description}
 				</Text>
 				<View
-					style={[cardHeaderStyles.languageItem, { marginBottom: 4 }]}
+					style={[cardTitleStyles.languageItem, { marginBottom: 4 }]}
 				>
 					<Text color="mainBackground">{item.language}</Text>
 				</View>
@@ -65,7 +72,7 @@ const CardTitle = ({ item }) => {
 	);
 };
 
-const cardBodyStyles = StyleSheet.create({
+const cardInformationStyles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		flexGrow: 1,
@@ -77,15 +84,7 @@ const cardBodyStyles = StyleSheet.create({
 
 const convertToK = (number) => {
 	if (number >= 1000) {
-		return (
-			String(
-				parseInt(
-					(number >= 10000
-						? (number / 1000).toFixed()
-						: number / 1000) * 10
-				) / 10
-			) + "K"
-		);
+		return String(parseInt((number / 1000) * 10) / 10 + "k");
 	}
 	return number;
 	// eslint-disable-next-line no-undef
@@ -95,7 +94,7 @@ const convertToK = (number) => {
 
 const CardInformation = ({ item }) => {
 	return (
-		<View style={cardBodyStyles.container}>
+		<View style={cardInformationStyles.container}>
 			<View>
 				<Text fontWeight="bold" style={{ marginBottom: 4 }}>
 					{convertToK(item.stargazersCount)}
@@ -130,6 +129,9 @@ const cardStyles = StyleSheet.create({
 		backgroundColor: "white",
 		padding: 10,
 	},
+	separate: {
+		marginTop: 30,
+	},
 });
 
 const RepositoryItem = ({ item }) => {
@@ -140,36 +142,22 @@ const RepositoryItem = ({ item }) => {
 	};
 
 	return (
-		<>
-			<View testID="repositoryItem" style={cardStyles.container}>
-				<CardTitle item={item} />
-				<CardInformation item={item} />
-				{repositoryId && (
-					<View style={cardBodyStyles.container}>
-						<Pressable
-							onPress={handlePress}
-							style={[
-								cardHeaderStyles.languageItem,
-								{
-									width: 375,
-									marginTop: 10,
-									marginBottom: 6,
-									padding: 15,
-								},
-							]}
+		<View testID="repositoryItem" style={cardStyles.container}>
+			<CardTitle item={item} />
+			<CardInformation item={item} />
+			{repositoryId && (
+				<View style={cardStyles.separate}>
+					<Pressable onPress={handlePress}>
+						<Text
+							style={cardTitleStyles.textInLogin}
+							color="mainBackground"
 						>
-							<Text
-								style={{ fontWeight: "bold" }}
-								color="mainBackground"
-							>
-								Open in Github
-							</Text>
-						</Pressable>
-					</View>
-				)}
-			</View>
-			<ItemSeparator />
-		</>
+							Open in Github
+						</Text>
+					</Pressable>
+				</View>
+			)}
+		</View>
 	);
 };
 

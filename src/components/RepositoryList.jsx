@@ -96,11 +96,7 @@ const RepositoryList = () => {
 		return null;
 	}
 
-	return (
-		<>
-			<RepositoryListContainer repositories={data.repositories} />
-		</>
-	);
+	return <RepositoryListContainer repositories={data.repositories} />;
 };
 
 export default RepositoryList;

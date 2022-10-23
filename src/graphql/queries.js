@@ -11,7 +11,6 @@ const REPOSITORY_DETAILS = gql`
 		ownerAvatarUrl
 		language
 		description
-		url
 	}
 `;
 
@@ -32,6 +31,21 @@ export const REPOSITORY = gql`
 	query Repository($repositoryId: ID!) {
 		repository(id: $repositoryId) {
 			...RepositoryDetails
+			url
+			reviews {
+				edges {
+					node {
+						id
+						text
+						rating
+						createdAt
+						user {
+							id
+							username
+						}
+					}
+				}
+			}
 		}
 	}
 	${REPOSITORY_DETAILS}
