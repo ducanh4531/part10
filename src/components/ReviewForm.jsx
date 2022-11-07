@@ -1,17 +1,24 @@
 import { View, Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-// import { useNavigate } from "react-router-native";
+import { useNavigate } from "react-router-native";
 
-import Text from ".Text";
+import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
 import theme from "../theme";
+import useCreateReview from "../hooks/useCreateReview";
 
 const validationSchema = yup.object().shape({
-	username: yup.string().required("Repository owner name is required"),
-	fullName: yup.string().required("Repository name is required"),
+	ownerName: yup
+		.string()
+		.lowercase()
+		.required("Repository owner name is required"),
+	repositoryName: yup
+		.string()
+		.lowercase()
+		.required("Repository name is required"),
 	rating: yup.number().min(0).max(100).required("Rating is required"),
-	review: yup.string(),
+	text: yup.string().max(2000),
 });
 
 const styles = {
@@ -35,10 +42,10 @@ const styles = {
 	},
 };
 const initialValues = {
-	username: "",
-	fullName: "",
+	ownerName: "",
+	repositoryName: "",
 	rating: "",
-	review: "",
+	text: "",
 };
 
 const ReviewForm = ({ onSubmit }) => {
@@ -46,13 +53,13 @@ const ReviewForm = ({ onSubmit }) => {
 		<View style={styles.viewContainer}>
 			<View style={styles.separate}>
 				<FormikTextInput
-					name="username"
+					name="ownerName"
 					placeholder="Repository owner name"
 				/>
 			</View>
 			<View style={styles.separate}>
 				<FormikTextInput
-					name="fullName"
+					name="repositoryName"
 					placeholder="Repository name"
 				/>
 			</View>
@@ -63,7 +70,11 @@ const ReviewForm = ({ onSubmit }) => {
 				/>
 			</View>
 			<View style={styles.separate}>
-				<FormikTextInput name="review" placeholder="Review" />
+				<FormikTextInput
+					name="text"
+					placeholder="Review"
+					multiline={true}
+				/>
 			</View>
 			<View style={styles.separate}>
 				<Pressable onPress={onSubmit}>
@@ -89,8 +100,24 @@ const ReviewFormContainer = ({ onSubmit }) => {
 };
 
 const Review = () => {
-	const onSubmit = async () => {
-		console.log("hello");
+	const [createReview] = useCreateReview();
+	const navigate = useNavigate();
+	const onSubmit = async (values) => {
+		const { repositoryName, rating, text, ownerName } = values;
+		try {
+			const { data } = await createReview({
+				repositoryName,
+				ownerName,
+				rating: Number(rating),
+				text,
+			});
+			navigate(`/${data.createReview.repositoryId}`);
+		} catch (e) {
+			console.log(
+				"🚀 ~ file: ReviewForm.jsx ~ line 119 ~ onSubmit ~ e",
+				e
+			);
+		}
 	};
 
 	return <ReviewFormContainer onSubmit={onSubmit} />;

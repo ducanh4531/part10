@@ -57,9 +57,17 @@ const AppBar = () => {
 				</Link>
 				{data.me ? (
 					// <Pressable onPress={onSubmit}>
-					<Link to="/sign" onPress={onSubmit}>
-						<Text style={appBarTabStyles.textItem}>Log out</Text>
-					</Link>
+					<>
+						<Link to='/reviewForm'>
+							<AppBarTab content="Create a review" />
+						</Link>
+
+						<Link to="/sign" onPress={onSubmit}>
+							<Text style={appBarTabStyles.textItem}>
+								Log out
+							</Text>
+						</Link>
+					</>
 				) : (
 					// </Pressable>
 					<Link to="/sign">
