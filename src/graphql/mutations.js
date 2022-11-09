@@ -21,8 +21,18 @@ export const CREATE_REVIEW = gql`
 				username
 			}
 			repository {
-			fullName
+				fullName
 			}
+		}
+	}
+`;
+
+export const CREATE_USER = gql`
+	mutation createUser($user: CreateUserInput) {
+		createUser(user: $user) {
+			id
+			username
+			createdAt
 		}
 	}
 `;

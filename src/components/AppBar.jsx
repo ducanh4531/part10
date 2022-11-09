@@ -58,7 +58,7 @@ const AppBar = () => {
 				{data.me ? (
 					// <Pressable onPress={onSubmit}>
 					<>
-						<Link to='/reviewForm'>
+						<Link to="/reviewForm">
 							<AppBarTab content="Create a review" />
 						</Link>
 
@@ -70,9 +70,14 @@ const AppBar = () => {
 					</>
 				) : (
 					// </Pressable>
-					<Link to="/sign">
-						<AppBarTab content="Sign in" />
-					</Link>
+					<>
+						<Link to="/sign">
+							<AppBarTab content="Sign in" />
+						</Link>
+						<Link to="/signUp">
+							<AppBarTab content="Sign up" />
+						</Link>
+					</>
 				)}
 			</ScrollView>
 		</View>
