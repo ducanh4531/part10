@@ -6,7 +6,10 @@ import { ALL_REPOSITORIES } from "../graphql/queries";
 const useRepositories = ({ orderBy, orderDirection }) => {
 	const result = useQuery(ALL_REPOSITORIES, {
 		fetchPolicy: "cache-and-network",
-		variables: { orderBy, orderDirection },
+		variables: {
+			orderBy,
+			orderDirection,
+		},
 	});
 
 	// use fetchAPI
@@ -29,7 +32,6 @@ const useRepositories = ({ orderBy, orderDirection }) => {
 	// useEffect(() => {
 	// 	fetchRepositories();
 	// }, []);
-
 	return result;
 };
 

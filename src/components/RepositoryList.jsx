@@ -125,7 +125,8 @@ export const RepositoryListContainer = ({
 };
 
 const RepositoryList = () => {
-	const [principle, setPrinciple] = useState();
+	const [principle, setPrinciple] = useState({});
+
 	const { data, loading } = useRepositories(principle);
 
 	if (loading) {
