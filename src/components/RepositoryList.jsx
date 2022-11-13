@@ -1,5 +1,8 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import { useNavigate, useParams, Link } from "react-router-native";
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 
 import RepositoryItem from "./RepositoryItem";
 import theme from "../theme";
@@ -61,7 +64,11 @@ export const separatorStyles = StyleSheet.create({
 
 export const ItemSeparator = () => <View style={separatorStyles.separator} />;
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({
+	principle,
+	setPrinciple,
+	repositories,
+}) => {
 	const repositoryNodes = repositories
 		? repositories.edges.map((edge) => edge.node)
 		: [];
@@ -75,6 +82,34 @@ export const RepositoryListContainer = ({ repositories }) => {
 
 	return (
 		<FlatList
+			ListHeaderComponent={() => {
+				return (
+					<Picker
+						selectedValue={principle}
+						onValueChange={(itemValue) => {
+							return itemValue === "CREATED_AT"
+								? setPrinciple({ orderBy: itemValue })
+								: setPrinciple({
+										orderBy: "RATING_AVERAGE",
+										orderDirection: itemValue,
+								  });
+						}}
+					>
+						<Picker.Item
+							label="Latest repositories"
+							value="CREATED_AT"
+						/>
+						<Picker.Item
+							label="Highest rated repositories"
+							value="DESC"
+						/>
+						<Picker.Item
+							label="Lowest rated repositories"
+							value="ASC"
+						/>
+					</Picker>
+				);
+			}}
 			data={repositoryNodes}
 			ItemSeparatorComponent={ItemSeparator}
 			keyExtractor={(item, index) => index.toString()}
@@ -90,13 +125,20 @@ export const RepositoryListContainer = ({ repositories }) => {
 };
 
 const RepositoryList = () => {
-	const { data, loading } = useRepositories();
+	const [principle, setPrinciple] = useState();
+	const { data, loading } = useRepositories(principle);
 
 	if (loading) {
 		return null;
 	}
 
-	return <RepositoryListContainer repositories={data.repositories} />;
+	return (
+		<RepositoryListContainer
+			principle={principle}
+			setPrinciple={setPrinciple}
+			repositories={data.repositories}
+		/>
+	);
 };
 
 export default RepositoryList;
