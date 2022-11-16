@@ -77,7 +77,7 @@ const RepositoryListHeader = ({ principle, setPrinciple }) => {
 		},
 	});
 
-	const [text, setText] = useState();
+	const [text, setText] = useState(principle.searchKeyword);
 
 	const debounced = useDebouncedCallback((value) => {
 		setPrinciple({ searchKeyword: value });
@@ -88,7 +88,7 @@ const RepositoryListHeader = ({ principle, setPrinciple }) => {
 			<View>
 				<TextInput
 					style={styles.searchText}
-					defaultValue={text}
+					defaultValue={principle.searchKeyword}
 					onChangeText={(value) => {
 						setText(value);
 						debounced(text);
