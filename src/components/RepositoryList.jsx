@@ -128,6 +128,7 @@ export class RepositoryListContainer extends React.Component {
 
 	render() {
 		const navigate = this.props.navigate;
+		const onEndReach = this.props.onEndReach;
 		const { repositoryId } = this.props.repositoryId;
 		const repositoryNodes = this.props.repositories
 			? this.props.repositories.edges.map((edge) => edge.node)
@@ -143,6 +144,8 @@ export class RepositoryListContainer extends React.Component {
 				ListHeaderComponent={this.renderHeader}
 				data={repositoryNodes}
 				ItemSeparatorComponent={ItemSeparator}
+				onEndReached={onEndReach}
+				onEndReachedThreshold={0.5}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item }) => (
 					<Pressable onPress={handlePress}>
@@ -243,11 +246,19 @@ export class RepositoryListContainer extends React.Component {
 // };
 
 const RepositoryList = () => {
-	const [principle, setPrinciple] = useState({});
+	const [principle, setPrinciple] = useState({
+		first: 6,
+		after: "WzE2Njc3Nzc1NjU3ODIsImFzeW5jLWxpYnJhcnkucmVhY3QtYXN5bmMiXQ==",
+	});
 	const navigate = useNavigate();
 	const { repositoryId } = useParams();
 
-	const { data, loading } = useRepositories(principle);
+	const { repositories, loading, fetchMore } = useRepositories(principle);
+
+	const onEndReach = () => {
+		console.log("You have reached the end of the list");
+		fetchMore();
+	};
 
 	if (loading) {
 		return null;
@@ -259,7 +270,8 @@ const RepositoryList = () => {
 			repositoryId={{ repositoryId }}
 			principle={principle}
 			setPrinciple={setPrinciple}
-			repositories={data.repositories}
+			onEndReach={onEndReach}
+			repositories={repositories}
 		/>
 	);
 };

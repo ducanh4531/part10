@@ -1,6 +1,7 @@
 import { useParams } from "react-router-native";
 import { StyleSheet, FlatList, View } from "react-native";
 import { format } from "date-fns";
+import { useState } from "react";
 
 import RepositoryItem from "../components/RepositoryItem";
 import useRepository from "../hooks/useRepository";
@@ -75,7 +76,17 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
 	const { repositoryId } = useParams();
-	const { loading, data } = useRepository(repositoryId);
+	// eslint-disable-next-line no-unused-vars
+	const [principle, setPrinciple] = useState({
+		repositoryId,
+		first: 2,
+		after: "WzE2Njc3ODExNjU3ODUsImJiZTQyOTg0LTA1MWItNGEwMS1iNDVkLWI4ZDI5YzMyMjAwYy5qYXJlZHBhbG1lci5mb3JtaWsiXQ==",
+	});
+	const { data, loading, fetchMore } = useRepository(principle);
+
+	const onEndReach = () => {
+		fetchMore();
+	};
 
 	if (loading) {
 		return null;
@@ -89,13 +100,15 @@ const SingleRepository = () => {
 		<FlatList
 			data={reviewNodes}
 			ItemSeparatorComponent={ItemSeparator}
+			onEndReached={onEndReach}
+			onEndReachedThreshold={0.5}
+			keyExtractor={(item, index) => index.toString()}
 			renderItem={({ item }) => (
 				<View>
 					<Text>{item.fullName}</Text>
 					<ReviewItem review={item} />
 				</View>
 			)}
-			keyExtractor={({ id }) => id}
 			ListHeaderComponent={() => (
 				<RepositoryInfo repository={data.repository} />
 			)}
