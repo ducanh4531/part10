@@ -62,6 +62,10 @@ const AppBar = () => {
 							<AppBarTab content="Create a review" />
 						</Link>
 
+						<Link to="/myReviews">
+							<AppBarTab content="My reviews" />
+						</Link>
+
 						<Link to="/sign" onPress={onSubmit}>
 							<Text style={appBarTabStyles.textItem}>
 								Log out

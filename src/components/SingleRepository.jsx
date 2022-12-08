@@ -65,7 +65,7 @@ const reviewItemStyles = StyleSheet.create({
 	},
 });
 
-const ReviewItem = ({ review }) => {
+export const ReviewItem = ({ review }) => {
 	return (
 		<View style={reviewItemStyles.container}>
 			<CardRating reviewRating={review.rating} />

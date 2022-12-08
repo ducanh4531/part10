@@ -14,6 +14,19 @@ const REPOSITORY_DETAILS = gql`
 	}
 `;
 
+const REVIEW_DETAILS = gql`
+	fragment ReviewDetails on Review {
+		id
+		text
+		rating
+		createdAt
+		user {
+			id
+			username
+		}
+	}
+`;
+
 export const ALL_REPOSITORIES = gql`
 	query repositories(
 		$orderBy: AllRepositoriesOrderBy
@@ -52,14 +65,7 @@ export const REPOSITORY = gql`
 			reviews(first: $first, after: $after) {
 				edges {
 					node {
-						id
-						text
-						rating
-						createdAt
-						user {
-							id
-							username
-						}
+						...ReviewDetails
 					}
 					cursor
 				}
@@ -71,12 +77,26 @@ export const REPOSITORY = gql`
 		}
 	}
 	${REPOSITORY_DETAILS}
+	${REVIEW_DETAILS}
 `;
 
 export const ME = gql`
-	query {
+	query getCurrentUser($includeReviews: Boolean = false) {
 		me {
+			reviews @include(if: $includeReviews) {
+				edges {
+					node {
+						...ReviewDetails
+					}
+					cursor
+				}
+				pageInfo {
+					endCursor
+					hasNextPage
+				}
+			}
 			username
 		}
 	}
+	${REVIEW_DETAILS}
 `;
