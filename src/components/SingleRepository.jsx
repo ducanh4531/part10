@@ -1,4 +1,4 @@
-import { useParams } from "react-router-native";
+import { useParams, useLocation } from "react-router-native";
 import { StyleSheet, FlatList, View } from "react-native";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -44,10 +44,16 @@ const CardRating = ({ reviewRating }) => {
 };
 
 const CardText = ({ review }) => {
+	const location = useLocation();
+
 	return (
 		<View>
 			<View>
-				<Text>{review.user.username}</Text>
+				<Text>
+					{location.pathname === "/myReviews"
+						? review.repository.fullName
+						: review.user.username}
+				</Text>
 				<Text>{format(new Date(review.createdAt), "MM.dd.yyyy")}</Text>
 			</View>
 			<View>

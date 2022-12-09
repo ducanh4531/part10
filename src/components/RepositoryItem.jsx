@@ -5,7 +5,7 @@ import * as Linking from "expo-linking";
 import Text from "./Text";
 import theme from "../theme";
 
-const cardTitleStyles = StyleSheet.create({
+export const cardTitleStyles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		flexGrow: 1,
@@ -123,7 +123,7 @@ const CardInformation = ({ item }) => {
 	);
 };
 
-const cardStyles = StyleSheet.create({
+export const cardStyles = StyleSheet.create({
 	container: {
 		alignItems: "stretch",
 		backgroundColor: "white",
